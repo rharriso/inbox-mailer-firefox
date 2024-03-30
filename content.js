@@ -1,4 +1,4 @@
-function extractInfo() {
+function extractInfo(charCount) {
   const title = document.title;
   const url = window.location.href;
   const bodyText = Array.from(document.querySelectorAll('article > h2,p'))
@@ -6,7 +6,7 @@ function extractInfo() {
     .filter((text) => text.length > 0)
     .join('\n\n');
 
-  let trimmedBodyText = bodyText.substring(0, 500);
+  let trimmedBodyText = bodyText.substring(0, charCount);
 
   if (trimmedBodyText.length < bodyText.length) {
     trimmedBodyText = trimmedBodyText + '...';
@@ -35,4 +35,7 @@ function openMailDialog(info) {
   }, (err) => alert(err.message));
 }
 
-openMailDialog(extractInfo());
+browser.storage.local.get(['charCount']).then((res) => {
+  const charCount = res.charCount || 100;
+  openMailDialog(extractInfo(charCount));
+});

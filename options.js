@@ -1,19 +1,22 @@
 function saveOptions() {
-  var emailTo = document.getElementById('emailTo').value;
-  var emailFrom = document.getElementById('emailFrom').value;
+  const emailTo = document.getElementById('emailTo').value;
+  const emailFrom = document.getElementById('emailFrom').value;
+  const charCount = document.getElementById('charCount').value || 100;
 
   browser.storage.local.set({
     emailTo: emailTo,
-    emailFrom: emailFrom
+    emailFrom: emailFrom,
+    charCount: charCount
   });
   alert('Options saved.');
 }
 
 function restoreOptions() {
-  var gettingItem = browser.storage.local.get(['emailTo', 'emailFrom']);
+  var gettingItem = browser.storage.local.get(['emailTo', 'emailFrom', 'charCount']);
   gettingItem.then((res) => {
     document.getElementById('emailTo').value = res.emailTo || '';
     document.getElementById('emailFrom').value = res.emailFrom || '';
+    document.getElementById('charCount').value = res.charCount || 100;
   });
 }
 
